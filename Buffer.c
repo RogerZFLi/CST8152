@@ -109,7 +109,8 @@ BufferPointer bufAddChar(BufferPointer pBuffer, sofia_chr ch) {
 			/* TODO: Adjust new size for Additive increment */
 			/* TODO: Test with defensive programming */
 			realloc(pBuffer, sizeof(pBuffer) + pBuffer->increment);
-			break;
+			return pBuffer;
+			
 		case MODE_MULTI:
 			/* TODO: Adjust new size for Additive increment */
 			/* TODO: Test with defensive programming */
