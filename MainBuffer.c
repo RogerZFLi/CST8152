@@ -2,7 +2,7 @@
 ************************************************************
 * COMPILERS COURSE - Algonquin College
 * Code version: Summer, 2022
-* Author: Svillen Ranev - Paulo Sousa
+* Author: Roger Li, Denys Savaskyi - Paulo Sousa
 * Professors: Paulo Sousa
 ************************************************************
 */
@@ -68,11 +68,11 @@
  *  Function declarations
  * -------------------------------------------------------------
  */
-sofia_nul bErrorPrint(sofia_chr* fmt, ...);
-sofia_nul displayBuffer(Buffer* ptr_Buffer);
-sofia_lng getFileSize(sofia_chr* fname);
-sofia_int isNumber(const sofia_chr* ns);
-sofia_nul startBuffer(sofia_chr*, sofia_chr*, sofia_chr, sofia_int, sofia_int);
+rsa_nul bErrorPrint(rsa_chr* fmt, ...);
+rsa_nul displayBuffer(Buffer* ptr_Buffer);
+rsa_lng getFileSize(rsa_chr* fname);
+rsa_int isNumber(const rsa_chr* ns);
+rsa_nul startBuffer(rsa_chr*, rsa_chr*, rsa_chr, rsa_int, rsa_int);
 
 /*
 ************************************************************
@@ -84,13 +84,13 @@ sofia_nul startBuffer(sofia_chr*, sofia_chr*, sofia_chr, sofia_int, sofia_int);
 ************************************************************
 */
 
-sofia_int mainBuffer(sofia_int argc, sofia_chr** argv) {
+rsa_int mainBuffer(rsa_int argc, rsa_chr** argv) {
 
 	/* Create source input buffer */
-	sofia_chr* program = argv[0];
-	sofia_chr* input = argv[2];
-	sofia_chr mode = MODE_FIXED;
-	sofia_int size = 0, increment = 0, wrongNumber = 0;
+	rsa_chr* program = argv[0];
+	rsa_chr* input = argv[2];
+	rsa_chr mode = MODE_FIXED;
+	rsa_int size = 0, increment = 0, wrongNumber = 0;
 
 	/* Missing file name or/and mode parameter */
 	if (argc <= 2) {
@@ -143,12 +143,12 @@ sofia_int mainBuffer(sofia_int argc, sofia_chr** argv) {
 *	- Increment: buffer increment.
 ************************************************************
 */
-sofia_nul startBuffer(sofia_chr* program, sofia_chr* input, sofia_chr mode, sofia_int size, sofia_int increment) {
+rsa_nul startBuffer(rsa_chr* program, rsa_chr* input, rsa_chr mode, rsa_int size, rsa_int increment) {
 
 	BufferPointer bufferp;		/* pointer to Buffer structure */
 	FILE* fileHandler;			/* input file handle */
-	sofia_int loadSize = 0;		/* the size of the file loaded in the buffer */
-	sofia_chr symbol;			/* symbol read from input file */
+	rsa_int loadSize = 0;		/* the size of the file loaded in the buffer */
+	rsa_chr symbol;				/* symbol read from input file */
 
 	/* Create buffer */
 	bufferp = bufCreate(size, (char)increment, mode);
@@ -206,12 +206,12 @@ sofia_nul startBuffer(sofia_chr* program, sofia_chr* input, sofia_chr mode, sofi
 ************************************************************
 */
 
-sofia_nul bErrorPrint(sofia_chr* fmt, ...) {
+rsa_nul bErrorPrint(rsa_chr* fmt, ...) {
 	/* Initialize variable list */
 	va_list ap;
 	va_start(ap, fmt);
 
-	(sofia_nul)vfprintf(stderr, fmt, ap);
+	(rsa_nul)vfprintf(stderr, fmt, ap);
 	va_end(ap);
 
 	/* Move to new line */
@@ -226,7 +226,7 @@ sofia_nul bErrorPrint(sofia_chr* fmt, ...) {
 ************************************************************
 */
 
-sofia_nul displayBuffer(Buffer* ptr_Buffer) {
+rsa_nul displayBuffer(Buffer* ptr_Buffer) {
 	printf("\nPrinting buffer parameters:\n\n");
 	printf("The capacity of the buffer is:  %d\n",
 		bufGetSize(ptr_Buffer));
@@ -254,9 +254,9 @@ sofia_nul displayBuffer(Buffer* ptr_Buffer) {
 ************************************************************
 */
 
-sofia_lng getFileSize(sofia_chr* fname) {
+rsa_lng getFileSize(rsa_chr* fname) {
 	FILE* input;
-	sofia_lng flength;
+	rsa_lng flength;
 	input = fopen(fname, "r");
 	if (input == NULL) {
 		bErrorPrint("%s%s", "Cannot open file: ", fname);
@@ -278,8 +278,8 @@ sofia_lng getFileSize(sofia_chr* fname) {
 ************************************************************
 */
 
-sofia_int isNumber(const sofia_chr* ns) {
-	sofia_chr c; sofia_int i = 0;
+rsa_int isNumber(const rsa_chr* ns) {
+	rsa_chr c; rsa_int i = 0;
 	if (ns == NULL) return 0;
 	while ((c = ns[i++]) == 0) {
 		if (!isdigit(c)) return 0;

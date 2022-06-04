@@ -3,3 +3,8 @@
 1	130	6757255715840333	CMakeFiles/Assignment12.dir/Compilers.c.obj	c83554c0cde708ea
 16	151	6757255716090263	CMakeFiles/Assignment12.dir/MainBuffer.c.obj	9238817baa5ad7e1
 152	657	6757255720854045	Assignment12.exe	ba88a1839bf03bca
+1	13	0	clean	8c45b54705a541e8
+5	348	6760779073345206	CMakeFiles/Assignment12.dir/Buffer.c.obj	ee72ce837f6ae7a5
+1	351	6760779073445300	CMakeFiles/Assignment12.dir/Compilers.c.obj	c83554c0cde708ea
+12	359	6760779073545293	CMakeFiles/Assignment12.dir/MainBuffer.c.obj	9238817baa5ad7e1
+360	517	6760779074745296	Assignment12.exe	ba88a1839bf03bca

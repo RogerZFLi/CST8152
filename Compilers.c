@@ -2,7 +2,7 @@
 ************************************************************
 * COMPILERS COURSE - Algonquin College
 * Code version: Summer, 2022
-* Author: Svillen Ranev - Paulo Sousa
+* Author: Roger Li, Denys Savaskyi - Paulo Sousa
 * Professors: Paulo Sousa
 ************************************************************
 */
@@ -57,8 +57,8 @@
 *************************************************************
 */
 
-sofia_int main(int argc, char** argv) {
-	sofia_int i;
+rsa_int main(int argc, char** argv) {
+	rsa_int i;
 	if (DEBUG) {
 		for (i = 0; i < argc; ++i)
 			printf("argv[%d] = %s\n", i, argv[i]);
@@ -70,7 +70,7 @@ sofia_int main(int argc, char** argv) {
 			PGM_PARSER, "] - Parser\n");
 		return EXIT_FAILURE;
 	}
-	sofia_chr option = argv[1][0];
+	rsa_chr option = argv[1][0];
 	switch (option) {
 	case PGM_BUFFER:
 		mainBuffer(argc, argv);

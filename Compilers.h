@@ -2,7 +2,7 @@
 ************************************************************
 * COMPILERS COURSE - Algonquin College
 * Code version: Summer, 2022
-* Author: Svillen Ranev - Paulo Sousa
+* Author: Roger Li, Denys Savaskyi - Paulo Sousa
 * Professors: Paulo Sousa
 ************************************************************
 */
@@ -36,8 +36,8 @@
  */
 
 /* TODO: Logical constants - adapt for your language */
-#define SOFIA_TRUE	1
-#define SOFIA_FALSE 0
+#define RSA_TRUE	1
+#define RSA_FALSE 0
 
 /*
 ------------------------------------------------------------
@@ -48,16 +48,16 @@ NOTE: Some types may not be directly used by your language,
 */
 
 /* TODO: Define your typedefs */
-typedef char			sofia_chr;
-typedef int				sofia_int;
-typedef float			sofia_flt;
-typedef void			sofia_nul;
+typedef char			rsa_chr;
+typedef int				rsa_int;
+typedef float			rsa_flt;
+typedef void			rsa_nul;
 
-typedef unsigned char	sofia_bol;
-typedef unsigned char	sofia_flg;
+typedef unsigned char	rsa_bol;
+typedef unsigned char	rsa_flg;
 
-typedef long			sofia_lng;
-typedef double			sofia_dbl;
+typedef long			rsa_lng;
+typedef double			rsa_dbl;
 
 /*
 ------------------------------------------------------------
@@ -79,10 +79,10 @@ Main functions signatures
 (Code will be updated during next assignments)
 ------------------------------------------------------------
 */
-sofia_int mainBuffer	(sofia_int argc, sofia_chr** argv);
+rsa_int mainBuffer	(rsa_int argc, rsa_chr** argv);
 /*
-sofia_int mainScanner	(sofia_int argc, sofia_chr** argv);
-sofia_int mainParser	(sofia_int argc, sofia_chr** argv);
+rsa_int mainScanner	(rsa_int argc, rsa_chr** argv);
+rsa_int mainParser	(rsa_int argc, rsa_chr** argv);
 */
 
 #endif

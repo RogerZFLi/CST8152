@@ -2,7 +2,7 @@
 ************************************************************
 * COMPILERS COURSE - Algonquin College
 * Code version: Summer, 2022
-* Author: Svillen Ranev - Paulo Sousa
+* Author: Roger Li, Denys Savaskyi - Paulo Sousa
 * Professors: Paulo Sousa
 ************************************************************
 */
@@ -41,7 +41,7 @@
 * Function name: bCreate
 * Purpose: Creates the buffer according to capacity, increment
 	factor and operational mode ('f', 'a', 'm')
-* Author: Svillen Ranev / Paulo Sousa
+* Author: Roger Li, Denys Savaskyi / Paulo Sousa
 * History/Versions: S22
 * Called functions: calloc(), malloc()
 * Parameters:
@@ -58,7 +58,7 @@
 *************************************************************
 */
 
-BufferPointer bufCreate(sofia_int size, sofia_int increment, sofia_int mode) {
+BufferPointer bufCreate(rsa_int size, rsa_int increment, rsa_int mode) {
 	BufferPointer b;
 	/* TODO: Defensive programming: check validity of parameters */
 	if (!size) {
@@ -69,7 +69,7 @@ BufferPointer bufCreate(sofia_int size, sofia_int increment, sofia_int mode) {
 	b = (BufferPointer)calloc(1, sizeof(Buffer));
 	/* TODO: Defensive programming */
 	if (b) {
-		b->content = (sofia_chr*)malloc(size);
+		b->content = (rsa_chr*)malloc(size);
 		b->size = size;
 	}
 	/* TODO: Defensive programming */
@@ -94,21 +94,20 @@ BufferPointer bufCreate(sofia_int size, sofia_int increment, sofia_int mode) {
 *************************************************************
 */
 
-BufferPointer bufAddChar(BufferPointer pBuffer, sofia_chr ch) {
-	sofia_chr* tempbuf = NULL;
-	sofia_int newSize = 0;
+BufferPointer bufAddChar(BufferPointer pBuffer, rsa_chr ch) {
+	rsa_chr* tempbuf = NULL;
+	rsa_int newSize = 0;
 	/* TODO: Defensive programming */
 	/* TODO: Reset Realocation */
 	/* TODO: Check if it is possible to be increased */
 	/* TODO: Check if buffer is full */
-	if (pBuffer->position.posWrte * (sofia_int)sizeof(sofia_chr) >= pBuffer->size) {
+	if (pBuffer->position.posWrte * (rsa_int)sizeof(rsa_chr) >= pBuffer->size) {
 		switch (pBuffer->mode) {
 		case MODE_FIXED:
 			return NULL;
 		case MODE_ADDIT:
 			/* TODO: Adjust new size for Additive increment */
 			/* TODO: Test with defensive programming */
-			realloc(pBuffer, sizeof(pBuffer) + pBuffer->increment);
 			return pBuffer;
 			
 		case MODE_MULTI:
@@ -139,10 +138,10 @@ BufferPointer bufAddChar(BufferPointer pBuffer, sofia_chr ch) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-sofia_bol bufClear(BufferPointer const pBuffer) {
+rsa_bol bufClear(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Clear the buffer reseting all positions and flags */
-	return SOFIA_TRUE;
+	return RSA_TRUE;
 }
 
 /*
@@ -158,10 +157,10 @@ sofia_bol bufClear(BufferPointer const pBuffer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-sofia_bol bufDestroy(BufferPointer const pBuffer) {
+rsa_bol bufDestroy(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Free the buffer (content and struct) */
-	return SOFIA_TRUE;
+	return RSA_TRUE;
 }
 
 /*
@@ -177,10 +176,10 @@ sofia_bol bufDestroy(BufferPointer const pBuffer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-sofia_bol bufChkFull(BufferPointer const pBuffer) {
+rsa_bol bufChkFull(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Check flag if buffer is FUL and return correct value */
-	return SOFIA_TRUE;
+	return RSA_TRUE;
 }
 
 
@@ -198,10 +197,10 @@ sofia_bol bufChkFull(BufferPointer const pBuffer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-sofia_bol bufChkEmpty(BufferPointer const pBuffer) {
+rsa_bol bufChkEmpty(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Check if it is empty */
-	return SOFIA_TRUE;
+	return RSA_TRUE;
 }
 
 
@@ -220,10 +219,10 @@ sofia_bol bufChkEmpty(BufferPointer const pBuffer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-sofia_bol bufSetMark(BufferPointer const pBuffer, sofia_int mark) {
+rsa_bol bufSetMark(BufferPointer const pBuffer, rsa_int mark) {
 	/* TODO: Defensive programming */
 	/* TODO: Adjust mark position */
-	return SOFIA_TRUE;
+	return RSA_TRUE;
 }
 
 
@@ -240,9 +239,9 @@ sofia_bol bufSetMark(BufferPointer const pBuffer, sofia_int mark) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-sofia_int bufPrint(BufferPointer const pBuffer) {
-	sofia_int cont = 0;
-	sofia_chr c;
+rsa_int bufPrint(BufferPointer const pBuffer) {
+	rsa_int cont = 0;
+	rsa_chr c;
 	/* TODO: Defensive programming */
 	c = bufGetChar(pBuffer);
 	/* TODO: Print all chars */
@@ -270,11 +269,11 @@ sofia_int bufPrint(BufferPointer const pBuffer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-sofia_int bufLoad(BufferPointer const pBuffer, FILE* const fi) {
-	sofia_int size = 0;
-	sofia_chr c;
+rsa_int bufLoad(BufferPointer const pBuffer, FILE* const fi) {
+	rsa_int size = 0;
+	rsa_chr c;
 	/* TODO: Defensive programming */
-	c = (sofia_chr)fgetc(fi);
+	c = (rsa_chr)fgetc(fi);
 	while (!feof(fi)) {
 		if (!bufAddChar(pBuffer, c)) {
 			ungetc(c, fi);
@@ -301,10 +300,10 @@ sofia_int bufLoad(BufferPointer const pBuffer, FILE* const fi) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-sofia_bol bufRecover(BufferPointer const pBuffer) {
+rsa_bol bufRecover(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Reinitialize read and mark positions */
-	return SOFIA_TRUE;
+	return RSA_TRUE;
 }
 
 
@@ -322,11 +321,11 @@ sofia_bol bufRecover(BufferPointer const pBuffer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-sofia_bol bufRetract(BufferPointer const pBuffer) {
+rsa_bol bufRetract(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Check boundary conditions */
 	/* TODO: Retract (return 1 pos read) */
-	return SOFIA_TRUE;
+	return RSA_TRUE;
 }
 
 
@@ -343,10 +342,10 @@ sofia_bol bufRetract(BufferPointer const pBuffer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-sofia_bol bufRestore(BufferPointer const pBuffer) {
+rsa_bol bufRestore(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Return read position to mark position */
-	return SOFIA_TRUE;
+	return RSA_TRUE;
 }
 
 /*
@@ -363,7 +362,7 @@ sofia_bol bufRestore(BufferPointer const pBuffer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-sofia_chr bufGetChar(BufferPointer const pBuffer) {
+rsa_chr bufGetChar(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Adjust EOB if necessary */
 	return pBuffer->content[pBuffer->position.posRead++];
@@ -384,7 +383,7 @@ sofia_chr bufGetChar(BufferPointer const pBuffer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-sofia_chr* bufGetContent(BufferPointer const pBuffer, sofia_int pos) {
+rsa_chr* bufGetContent(BufferPointer const pBuffer, rsa_int pos) {
 	/* TODO: Defensive programming */
 	/* TODO: Return the pointer to content given by pos */
 	return NULL;
@@ -404,7 +403,7 @@ sofia_chr* bufGetContent(BufferPointer const pBuffer, sofia_int pos) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-sofia_int bufGetPosRead(BufferPointer const pBuffer) {
+rsa_int bufGetPosRead(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Return read position */
 	return 0;
@@ -424,7 +423,7 @@ sofia_int bufGetPosRead(BufferPointer const pBuffer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-sofia_int bufGetPosWrte(BufferPointer const pBuffer) {
+rsa_int bufGetPosWrte(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Return the expected (write position) */
 	return 0;
@@ -444,7 +443,7 @@ sofia_int bufGetPosWrte(BufferPointer const pBuffer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-sofia_int bufGetPosMark(BufferPointer const pBuffer) {
+rsa_int bufGetPosMark(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Return mark position */
 	return 0;
@@ -463,7 +462,7 @@ sofia_int bufGetPosMark(BufferPointer const pBuffer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-sofia_int bufGetSize(BufferPointer const pBuffer) {
+rsa_int bufGetSize(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Return buffer size */
 	return 0;
@@ -483,7 +482,7 @@ sofia_int bufGetSize(BufferPointer const pBuffer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-sofia_int bufGetInc(BufferPointer const pBuffer) {
+rsa_int bufGetInc(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Return increment */
 	return 0;
@@ -503,7 +502,7 @@ sofia_int bufGetInc(BufferPointer const pBuffer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-sofia_int bufGetMode(BufferPointer const pBuffer) {
+rsa_int bufGetMode(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Return buffer mode */
 	return 0;
@@ -523,7 +522,7 @@ sofia_int bufGetMode(BufferPointer const pBuffer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-sofia_flg bufGetFlags(BufferPointer const pBuffer) {
+rsa_flg bufGetFlags(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Return flags */
 	return 0;

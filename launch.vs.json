@@ -5,8 +5,8 @@
     {
       "type": "default",
       "project": "CMakeLists.txt",
-      "projectTarget": "SofiaCompiler.exe",
-      "name": "SofiaCompiler.exe",
+      "projectTarget": "RoSAliceCompiler.exe",
+      "name": "RoSAliceCompiler.exe",
       "args": [
         "1",
         "README.txt"

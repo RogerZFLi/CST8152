@@ -2,7 +2,7 @@
 ************************************************************
 * COMPILERS COURSE - Algonquin College
 * Code version: Summer, 2022
-* Author: Svillen Ranev - Paulo Sousa
+* Author: Roger Li, Denys Savaskyi - Paulo Sousa
 * Professors: Paulo Sousa
 ************************************************************
 */
@@ -68,54 +68,58 @@ enum BUFFERMODES {
 /* BITS                                (7654.3210) */
 #define BUFFER_DEFAULT_FLAG 0x00 	/* (0000.0000)_2 = (000)_10 */
 /* TODO: BIT 3: RLB = Relocation - Define masks for SET, RST, CHK */
+#define BUFFER_RLB_FLAG 0x08 /* (0000.1000)_2 = (008)_10 */
 /* TODO: BIT 2: EOB = EndOfBuffer - Define masks for SET, RST, CHK */
+#define BUFFER_EOB_FLAG 0x04 /* (0000.0100)_2 = (004)_10 */
 /* TODO: BIT 1: FUL = Full - Define masks for SET, RST, CHK */
+#define BUFFER_FUL_FLAG 0x02 /* (0000.0010)_2 = (002)_10 */
 /* TODO: BIT 0: EMP = Empty - Define masks for SET, RST, CHK */
+#define BUFFER_EMP_FLAG 0x01 /* (0000.0001)_2 = (001)_10 */
 
-/* STRUCTURES DEFINITION: SUFIXED BY LANGUAGE NAME (SOFIA) .................................. */
+/* STRUCTURES DEFINITION: SUFIXED BY LANGUAGE NAME (ROSALICE) .................................. */
 
 /* TODO: Adjust datatypes */
 
 /* Offset declaration */
 typedef struct position {
-	sofia_int posMark;			/* the offset to the mark position (in chars) */
-	sofia_int posRead;			/* the offset to the get a char position (in chars) */
-	sofia_int posWrte;			/* the offset to the add chars (in chars) */
+	rsa_int posMark;			/* the offset to the mark position (in chars) */
+	rsa_int posRead;			/* the offset to the get a char position (in chars) */
+	rsa_int posWrte;			/* the offset to the add chars (in chars) */
 } Position;
 
 /* Buffer structure */
 typedef struct buffer {
-	sofia_chr*	content;		/* pointer to the beginning of character array (character buffer) */
-	sofia_int	size;		    /* current dynamic memory size (in bytes) allocated to character buffer */
-	sofia_int	increment;		/* character array increment factor */
-	sofia_int	mode;			/* operational mode indicator */
-	sofia_flg	flags;			/* contains character array reallocation flag and end-of-buffer flag */
+	rsa_chr*	content;		/* pointer to the beginning of character array (character buffer) */
+	rsa_int		size;		    /* current dynamic memory size (in bytes) allocated to character buffer */
+	rsa_int		increment;		/* character array increment factor */
+	rsa_int		mode;			/* operational mode indicator */
+	rsa_flg		flags;			/* contains character array reallocation flag and end-of-buffer flag */
 	Position	position;		/* Offset / position field */
 } Buffer, * BufferPointer;
 
 /* FUNCTIONS DECLARATION:  .................................. */
 /* General Operations */
-BufferPointer	bufCreate(sofia_int, sofia_int, sofia_int);
-BufferPointer	bufAddChar(BufferPointer const, sofia_chr);
-sofia_bol		bufClear(BufferPointer const);
-sofia_bol		bufDestroy(BufferPointer const);
-sofia_bol		bufChkFull(BufferPointer const);
-sofia_bol		bufChkEmpty(BufferPointer const);
-sofia_bol		bufSetMark(BufferPointer const, sofia_int);
-sofia_int		bufPrint(BufferPointer const);
-sofia_int		bufLoad(BufferPointer const, FILE* const);
-sofia_bol		bufRecover(BufferPointer const);
-sofia_bol		bufRetract(BufferPointer const);
-sofia_bol		bufRestore(BufferPointer const);
+BufferPointer	bufCreate(rsa_int, rsa_int, rsa_int);
+BufferPointer	bufAddChar(BufferPointer const, rsa_chr);
+rsa_bol			bufClear(BufferPointer const);
+rsa_bol			bufDestroy(BufferPointer const);
+rsa_bol			bufChkFull(BufferPointer const);
+rsa_bol			bufChkEmpty(BufferPointer const);
+rsa_bol			bufSetMark(BufferPointer const, rsa_int);
+rsa_int			bufPrint(BufferPointer const);
+rsa_int			bufLoad(BufferPointer const, FILE* const);
+rsa_bol			bufRecover(BufferPointer const);
+rsa_bol			bufRetract(BufferPointer const);
+rsa_bol			bufRestore(BufferPointer const);
 /* Getters */
-sofia_chr		bufGetChar(BufferPointer const);
-sofia_chr*		bufGetContent(BufferPointer const, sofia_int);
-sofia_int		bufGetPosRead(BufferPointer const);
-sofia_int		bufGetPosWrte(BufferPointer const);
-sofia_int		bufGetPosMark(BufferPointer const);
-sofia_int		bufGetSize(BufferPointer const);
-sofia_int		bufGetInc(BufferPointer const);
-sofia_int		bufGetMode(BufferPointer const);
-sofia_flg		bufGetFlags(BufferPointer const);
+rsa_chr			bufGetChar(BufferPointer const);
+rsa_chr*		bufGetContent(BufferPointer const, rsa_int);
+rsa_int			bufGetPosRead(BufferPointer const);
+rsa_int			bufGetPosWrte(BufferPointer const);
+rsa_int			bufGetPosMark(BufferPointer const);
+rsa_int			bufGetSize(BufferPointer const);
+rsa_int			bufGetInc(BufferPointer const);
+rsa_int			bufGetMode(BufferPointer const);
+rsa_flg			bufGetFlags(BufferPointer const);
 
 #endif
