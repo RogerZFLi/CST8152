@@ -62,7 +62,9 @@ BufferPointer bufCreate(rsa_int size, rsa_int increment, rsa_int mode) {
 	BufferPointer b;
 	/* TODO: Defensive programming: check validity of parameters */
 	if (!size) {
+		printf("%d\n", size);
 		size = BUFFER_DEFAULT_SIZE;
+		printf("%d\n", size);
 		increment = BUFFER_DEFAULT_INCREMENT;
 	}
 	/* TODO: When there is no increment, mode: fixed */
@@ -71,10 +73,11 @@ BufferPointer bufCreate(rsa_int size, rsa_int increment, rsa_int mode) {
 	}
 	b = (BufferPointer)calloc(1, sizeof(Buffer));
 	/* TODO: Defensive programming */
-	if (b) {
+	if (b!=NULL) {
 		b->content = (rsa_chr*)malloc(size);
 		b->size = size;
 	}
+	if(b != NULL) printf("%d\n", b->size);
 	/* TODO: Defensive programming */
 	/* TODO: Update buffer properties (mode, increment, flags) */
 	if (b) {
@@ -468,7 +471,11 @@ rsa_chr bufGetChar(BufferPointer const pBuffer) {
 rsa_chr* bufGetContent(BufferPointer const pBuffer, rsa_int pos) {
 	/* TODO: Defensive programming */
 	/* TODO: Return the pointer to content given by pos */
-
+	rsa_chr* subCon = NULL;
+	if (pBuffer && pos > -1) {
+		memcpy(subCon, &pBuffer->content[pos]);
+		if(subCon) return subCon;
+	}
 	return NULL;
 }
 
@@ -489,6 +496,7 @@ rsa_chr* bufGetContent(BufferPointer const pBuffer, rsa_int pos) {
 rsa_int bufGetPosRead(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Return read position */
+	if (pBuffer) return pBuffer->position.posRead;
 	return 0;
 }
 
@@ -509,6 +517,7 @@ rsa_int bufGetPosRead(BufferPointer const pBuffer) {
 rsa_int bufGetPosWrte(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Return the expected (write position) */
+	if (pBuffer) return pBuffer->position.posWrte;
 	return 0;
 }
 
@@ -529,6 +538,7 @@ rsa_int bufGetPosWrte(BufferPointer const pBuffer) {
 rsa_int bufGetPosMark(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Return mark position */
+	if (pBuffer) return pBuffer->position.posMark;
 	return 0;
 }
 
