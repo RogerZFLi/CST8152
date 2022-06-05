@@ -36,7 +36,7 @@
  */
 
 /* TODO: Logical constants - adapt for your language */
-#define RSA_TRUE	1
+#define RSA_TRUE  1
 #define RSA_FALSE 0
 
 /*

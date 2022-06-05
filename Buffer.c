@@ -66,6 +66,9 @@ BufferPointer bufCreate(rsa_int size, rsa_int increment, rsa_int mode) {
 		increment = BUFFER_DEFAULT_INCREMENT;
 	}
 	/* TODO: When there is no increment, mode: fixed */
+	if (!increment) {
+		mode = MODE_FIXED;
+	}
 	b = (BufferPointer)calloc(1, sizeof(Buffer));
 	/* TODO: Defensive programming */
 	if (b) {
@@ -74,6 +77,11 @@ BufferPointer bufCreate(rsa_int size, rsa_int increment, rsa_int mode) {
 	}
 	/* TODO: Defensive programming */
 	/* TODO: Update buffer properties (mode, increment, flags) */
+	if (b) {
+		b->mode = mode;
+		b->increment = increment;
+		b->flags = BUFFER_DEFAULT_FLAG;
+	}
 	return b;
 }
 
@@ -95,8 +103,9 @@ BufferPointer bufCreate(rsa_int size, rsa_int increment, rsa_int mode) {
 */
 
 BufferPointer bufAddChar(BufferPointer pBuffer, rsa_chr ch) {
-	rsa_chr* tempbuf = NULL;
+	BufferPointer tempbuf = NULL;
 	rsa_int newSize = 0;
+	rsa_int originalAddress = &pBuffer;
 	/* TODO: Defensive programming */
 	/* TODO: Reset Realocation */
 	/* TODO: Check if it is possible to be increased */
@@ -108,20 +117,32 @@ BufferPointer bufAddChar(BufferPointer pBuffer, rsa_chr ch) {
 		case MODE_ADDIT:
 			/* TODO: Adjust new size for Additive increment */
 			/* TODO: Test with defensive programming */
-			return pBuffer;
+			newSize = pBuffer->size + pBuffer->increment;
+			tempbuf = (Buffer*)realloc(pBuffer, newSize);
+			
+			break;
 			
 		case MODE_MULTI:
 			/* TODO: Adjust new size for Additive increment */
 			/* TODO: Test with defensive programming */
+			newSize = pBuffer->size * pBuffer->increment;
+			tempbuf = (Buffer*)realloc(pBuffer, newSize);
+
 			break;
 		default:
 			return NULL;
 		}
+		if (!tempbuf) {
+			return NULL;
+		}
+		pBuffer = tempbuf;
 	}
 	/* TODO: Realloc the size for new buffer */
+	if(pBuffer)	pBuffer->size = newSize;
 	/* TODO: Check the realocation by Defensive programming */
+	if (&pBuffer != originalAddress) pBuffer->flags = BUFFER_RLB_FLAG;
 	/* TODO: If allowed, adjust the new buffer content */
-	pBuffer->content[pBuffer->position.posWrte++] = ch;
+	if(pBuffer) pBuffer->content[pBuffer->position.posWrte++] = ch;
 	return pBuffer;
 }
 
@@ -141,12 +162,24 @@ BufferPointer bufAddChar(BufferPointer pBuffer, rsa_chr ch) {
 rsa_bol bufClear(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Clear the buffer reseting all positions and flags */
-	return RSA_TRUE;
+	if (pBuffer) {
+		
+		free(pBuffer->content);
+		pBuffer->size = BUFFER_DEFAULT_SIZE;
+		pBuffer->content = (rsa_chr*)calloc(1, pBuffer->size);
+		pBuffer->flags = BUFFER_DEFAULT_FLAG;
+		/*not sure*/
+		pBuffer->position.posWrte = 0;
+		pBuffer->position.posMark = 0;
+		pBuffer->position.posRead = 0;
+		return RSA_TRUE;
+	}
+	return RSA_FALSE;
 }
 
 /*
 ***********************************************************
-* Function name: bDestroy
+* Function name: bufDestroy
 * Purpose: Releases the buffer address
 * Parameters:
 *   pBuffer = pointer to Buffer Entity
@@ -160,12 +193,17 @@ rsa_bol bufClear(BufferPointer const pBuffer) {
 rsa_bol bufDestroy(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Free the buffer (content and struct) */
-	return RSA_TRUE;
+	if (pBuffer) {
+		free(pBuffer->content);
+		free(pBuffer);
+		return RSA_TRUE;
+	}
+	return RSA_FALSE;
 }
 
 /*
 ***********************************************************
-* Function name: bIsFull
+* Function name: bufChkFull
 * Purpose: Checks if buffer is full
 * Parameters:
 *   pBuffer = pointer to Buffer Entity
@@ -179,7 +217,11 @@ rsa_bol bufDestroy(BufferPointer const pBuffer) {
 rsa_bol bufChkFull(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Check flag if buffer is FUL and return correct value */
-	return RSA_TRUE;
+	if (pBuffer) {
+		if (pBuffer->flags == BUFFER_FUL_FLAG)
+			return RSA_TRUE;
+	}
+	return RSA_FALSE;
 }
 
 
@@ -200,7 +242,11 @@ rsa_bol bufChkFull(BufferPointer const pBuffer) {
 rsa_bol bufChkEmpty(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Check if it is empty */
-	return RSA_TRUE;
+	if (pBuffer) {
+		if (pBuffer->flags == BUFFER_EMP_FLAG)
+			return RSA_TRUE;
+	}
+	return RSA_FALSE;
 }
 
 
@@ -222,7 +268,11 @@ rsa_bol bufChkEmpty(BufferPointer const pBuffer) {
 rsa_bol bufSetMark(BufferPointer const pBuffer, rsa_int mark) {
 	/* TODO: Defensive programming */
 	/* TODO: Adjust mark position */
-	return RSA_TRUE;
+	if (pBuffer) {
+		pBuffer->position.posMark = mark;	
+		return RSA_TRUE;
+	}
+	return RSA_FALSE;
 }
 
 
@@ -243,6 +293,8 @@ rsa_int bufPrint(BufferPointer const pBuffer) {
 	rsa_int cont = 0;
 	rsa_chr c;
 	/* TODO: Defensive programming */
+	if (!pBuffer) return -1;
+	if (pBuffer->flags == BUFFER_EMP_FLAG) return 0;
 	c = bufGetChar(pBuffer);
 	/* TODO: Print all chars */
 	while (cont<pBuffer->position.posWrte) {
@@ -273,17 +325,26 @@ rsa_int bufLoad(BufferPointer const pBuffer, FILE* const fi) {
 	rsa_int size = 0;
 	rsa_chr c;
 	/* TODO: Defensive programming */
-	c = (rsa_chr)fgetc(fi);
-	while (!feof(fi)) {
+	if (!pBuffer) {
+		printf("%s\n", "The buffer is not initialized");
+		return -1;
+	}
+	if (!fi) {
+		printf("%s\n", "The file to load doesn't exist");
+		return -1;
+	}
+	do {
+		c = (rsa_chr)fgetc(fi);
 		if (!bufAddChar(pBuffer, c)) {
 			ungetc(c, fi);
 			return BUFFER_ERROR;
 		}
-		c = (char)fgetc(fi);
 		size++;
-	}
+	} while (!feof(fi));
 	/* TODO: Defensive programming */
-	return size;
+	if (pBuffer->size == size)
+		return size;
+	else return pBuffer->size;
 }
 
 
@@ -303,13 +364,19 @@ rsa_int bufLoad(BufferPointer const pBuffer, FILE* const fi) {
 rsa_bol bufRecover(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Reinitialize read and mark positions */
-	return RSA_TRUE;
+	if (pBuffer) {
+		/*NOT sure*/
+		pBuffer->position.posMark = 0;
+		pBuffer->position.posRead = 0;
+		return RSA_TRUE;
+	}
+	return RSA_FALSE;
 }
 
 
 /*
 ***********************************************************
-* Function name: bRetract
+* Function name: bufRetract
 * Purpose: Retracts the buffer to put back the char in buffer.
 * Parameters:
 *   pBuffer = pointer to Buffer Entity
@@ -325,7 +392,11 @@ rsa_bol bufRetract(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Check boundary conditions */
 	/* TODO: Retract (return 1 pos read) */
-	return RSA_TRUE;
+	if (pBuffer) {
+		pBuffer->position.posRead--;
+		return RSA_TRUE;
+	}
+	return RSA_FALSE;
 }
 
 
@@ -345,7 +416,11 @@ rsa_bol bufRetract(BufferPointer const pBuffer) {
 rsa_bol bufRestore(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Return read position to mark position */
-	return RSA_TRUE;
+	if (pBuffer) {
+		pBuffer->position.posRead = pBuffer->position.posMark;
+		return RSA_TRUE;
+	}
+	return RSA_FALSE;
 }
 
 /*
@@ -365,7 +440,14 @@ rsa_bol bufRestore(BufferPointer const pBuffer) {
 rsa_chr bufGetChar(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Adjust EOB if necessary */
-	return pBuffer->content[pBuffer->position.posRead++];
+	if (!pBuffer) return NULL;
+	if (pBuffer->flags == BUFFER_EOB_FLAG) return BUFFER_EOF;
+	char c = pBuffer->content[pBuffer->position.posRead];
+	if (c != BUFFER_EOF) {
+		pBuffer->position.posRead++;
+	}else
+		pBuffer->flags = BUFFER_EOB_FLAG;
+	return c;
 }
 
 
@@ -386,6 +468,7 @@ rsa_chr bufGetChar(BufferPointer const pBuffer) {
 rsa_chr* bufGetContent(BufferPointer const pBuffer, rsa_int pos) {
 	/* TODO: Defensive programming */
 	/* TODO: Return the pointer to content given by pos */
+
 	return NULL;
 }
 
@@ -465,6 +548,7 @@ rsa_int bufGetPosMark(BufferPointer const pBuffer) {
 rsa_int bufGetSize(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Return buffer size */
+	if (pBuffer) return pBuffer->size;
 	return 0;
 }
 
@@ -485,6 +569,7 @@ rsa_int bufGetSize(BufferPointer const pBuffer) {
 rsa_int bufGetInc(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Return increment */
+	if (pBuffer) return pBuffer->increment;
 	return 0;
 }
 
@@ -505,6 +590,7 @@ rsa_int bufGetInc(BufferPointer const pBuffer) {
 rsa_int bufGetMode(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Return buffer mode */
+	if (pBuffer) return pBuffer->mode;
 	return 0;
 }
 
@@ -525,6 +611,7 @@ rsa_int bufGetMode(BufferPointer const pBuffer) {
 rsa_flg bufGetFlags(BufferPointer const pBuffer) {
 	/* TODO: Defensive programming */
 	/* TODO: Return flags */
+	if (pBuffer) return pBuffer->flags;
 	return 0;
 }
 
