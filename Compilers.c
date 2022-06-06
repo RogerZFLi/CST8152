@@ -53,7 +53,7 @@
 * Called functions: mainBuffer(), mainScanner(), mainParser()
 * Parameters: Command line arguments - argc, argv
 * Return value: Status
-* Algorithm: -
+* Algorithm: - 12
 *************************************************************
 */
 
