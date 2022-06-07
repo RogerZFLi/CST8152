@@ -62,9 +62,8 @@ BufferPointer bufCreate(rsa_int size, rsa_int increment, rsa_int mode) {
 	BufferPointer b;
 	/* TODO: Defensive programming: check validity of parameters */
 	if (!size) {
-		printf("%d\n", size);
+
 		size = BUFFER_DEFAULT_SIZE;
-		printf("%d\n", size);
 		increment = BUFFER_DEFAULT_INCREMENT;
 	}
 	/* TODO: When there is no increment, mode: fixed */
@@ -73,17 +72,19 @@ BufferPointer bufCreate(rsa_int size, rsa_int increment, rsa_int mode) {
 	}
 	b = (BufferPointer)calloc(1, sizeof(Buffer));
 	/* TODO: Defensive programming */
-	if (b!=NULL) {
+	if (b) {
 		b->content = (rsa_chr*)malloc(size);
 		b->size = size;
 	}
-	if(b != NULL) printf("%d\n", b->size);
+	if (mode == MODE_ADDIT || mode == MODE_FIXED || mode == MODE_MULTI) {
+	
+		if(b) b->mode = mode;
+		if(b) b->increment = increment;
+	}
 	/* TODO: Defensive programming */
 	/* TODO: Update buffer properties (mode, increment, flags) */
 	if (b) {
-		b->mode = mode;
-		b->increment = increment;
-		b->flags = BUFFER_DEFAULT_FLAG;
+		b->flags = BUFFER_DEFAULT_FLAG | BUFFER_EMP_FLAG;
 	}
 	return b;
 }
@@ -106,9 +107,9 @@ BufferPointer bufCreate(rsa_int size, rsa_int increment, rsa_int mode) {
 */
 
 BufferPointer bufAddChar(BufferPointer pBuffer, rsa_chr ch) {
-	BufferPointer tempbuf = NULL;
+	rsa_chr* tempbuf = NULL;
 	rsa_int newSize = 0;
-	rsa_int originalAddress = &pBuffer;
+	rsa_int originalAddress = &(pBuffer->content);
 	/* TODO: Defensive programming */
 	/* TODO: Reset Realocation */
 	/* TODO: Check if it is possible to be increased */
@@ -121,7 +122,8 @@ BufferPointer bufAddChar(BufferPointer pBuffer, rsa_chr ch) {
 			/* TODO: Adjust new size for Additive increment */
 			/* TODO: Test with defensive programming */
 			newSize = pBuffer->size + pBuffer->increment;
-			tempbuf = (Buffer*)realloc(pBuffer, newSize);
+			if(newSize>pBuffer->size)
+				tempbuf = (char*)realloc(pBuffer->content, newSize);
 			
 			break;
 			
@@ -129,7 +131,8 @@ BufferPointer bufAddChar(BufferPointer pBuffer, rsa_chr ch) {
 			/* TODO: Adjust new size for Additive increment */
 			/* TODO: Test with defensive programming */
 			newSize = pBuffer->size * pBuffer->increment;
-			tempbuf = (Buffer*)realloc(pBuffer, newSize);
+			if (newSize > pBuffer->size)
+			tempbuf = (char*)realloc(pBuffer->content, newSize);
 
 			break;
 		default:
@@ -138,14 +141,18 @@ BufferPointer bufAddChar(BufferPointer pBuffer, rsa_chr ch) {
 		if (!tempbuf) {
 			return NULL;
 		}
-		pBuffer = tempbuf;
+		pBuffer->content = tempbuf;
+		if (pBuffer)	pBuffer->size = newSize;
 	}
 	/* TODO: Realloc the size for new buffer */
-	if(pBuffer)	pBuffer->size = newSize;
+	
 	/* TODO: Check the realocation by Defensive programming */
-	if (&pBuffer != originalAddress) pBuffer->flags = BUFFER_RLB_FLAG;
+	if ((pBuffer) && (&(pBuffer->content) != originalAddress)) pBuffer->flags = BUFFER_RLB_FLAG | pBuffer->flags;
 	/* TODO: If allowed, adjust the new buffer content */
-	if(pBuffer) pBuffer->content[pBuffer->position.posWrte++] = ch;
+	if (pBuffer) {
+		pBuffer->content[pBuffer->position.posWrte++] = ch;
+	}
+
 	return pBuffer;
 }
 

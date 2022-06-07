@@ -1,5 +1,5 @@
 :: COMPILERS COURSE - SCRIPT ---------------------------------------------
-:: SCRIPT A12 - CST8152 - Winter 2022
+:: SCRIPT A12 - CST8152 - Spring 2022
 
 CLS
 SET COMPILER=Compiler.exe
