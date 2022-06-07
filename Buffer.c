@@ -469,8 +469,8 @@ rsa_chr bufGetChar(BufferPointer const pBuffer) {
 *************************************************************
 */
 rsa_chr* bufGetContent(BufferPointer const pBuffer, rsa_int pos) {
-	/* TODO: Defensive programming */
-	/* TODO: Return the pointer to content given by pos */
+	/* Defensive programming */
+	/* Return the pointer to content given by pos */
 	rsa_chr* subCon = NULL;
 	if (pBuffer && pos > -1) {
 		memcpy(subCon, &pBuffer->content[pos]);
