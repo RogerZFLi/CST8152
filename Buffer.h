@@ -11,8 +11,8 @@
 ************************************************************
 * File name: Buffer.h
 * Compiler: MS Visual Studio 2022
-* Author: Paulo Sousa
-* Course: CST 8152 – Compilers, Lab Section: [011, 012, 013]
+* Author: Roger Li, Denys Savaskyi - Paulo Sousa
+* Course: CST 8152 â€“ Compilers, Lab Section: 012
 * Assignment: A12.
 * Date: May 01 2022
 * Professor: Paulo Sousa
@@ -20,13 +20,6 @@
 ************************************************************
 */
 
-/*
- *.............................................................................
- * MAIN ADVICE:
- * - Please check the "TODO" labels to develop your activity.
- * - Review the functions to use "Defensive Programming".
- *.............................................................................
- */
 
 #ifndef COMPILERS_H_
 #include "Compilers.h"
@@ -35,7 +28,6 @@
 #ifndef BUFFER_H_
 #define BUFFER_H_
 
-/* TIP: Do not change pragmas, unless necessary .......................................*/
 /*#pragma warning(1:4001) *//*to enforce C89 type comments  - to make //comments an warning */
 /*#pragma warning(error:4001)*//* to enforce C89 comments - to make // comments an error */
 
@@ -44,7 +36,7 @@
 #include <malloc.h> /* for dynamic memory allocation*/
 #include <limits.h> /* implementation-defined data type ranges and limits */
 
-/* CONSTANTS DEFINITION: GENERAL (NOT LANGUAGE DEPENDENT) .................................. */
+/* CONSTANTS DEFINITION: GENERAL .................................. */
 
 /* Modes (used to create buffer) */
 enum BUFFERMODES {
@@ -53,11 +45,11 @@ enum BUFFERMODES {
 	MODE_MULTI = 'm'  /* Multiplicative mode (constant increment to be multiplied) */
 };
 
-/* Constants about controls (not need to change) */
+/* Constants about controls */
 #define BUFFER_ERROR (-1)					/* General error message */
 #define BUFFER_EOF '\0'						/* General EOF */
 
-/* TODO: Check the limit of your buffer */
+/* Check the limit of your buffer */
 #define BUFFER_MAX_SIZE	INT_MAX-1	/* maximum capacity */ 
 
 /* CONSTANTS DEFINITION: PREFIXED BY LANGUAGE NAME (SOFIA) .................................. */
@@ -67,18 +59,18 @@ enum BUFFERMODES {
 /* Add your bit-masks constant definitions here - Defined for SOFIA */
 /* BITS                                (7654.3210) */
 #define BUFFER_DEFAULT_FLAG 0x00 	/* (0000.0000)_2 = (000)_10 */
-/* TODO: BIT 3: RLB = Relocation - Define masks for SET, RST, CHK */
+/* BIT 3: RLB = Relocation - Define masks for SET, RST, CHK */
 #define BUFFER_RLB_FLAG 0x08 /* (0000.1000)_2 = (008)_10 */
-/* TODO: BIT 2: EOB = EndOfBuffer - Define masks for SET, RST, CHK */
+/*  BIT 2: EOB = EndOfBuffer - Define masks for SET, RST, CHK */
 #define BUFFER_EOB_FLAG 0x04 /* (0000.0100)_2 = (004)_10 */
-/* TODO: BIT 1: FUL = Full - Define masks for SET, RST, CHK */
+/* BIT 1: FUL = Full - Define masks for SET, RST, CHK */
 #define BUFFER_FUL_FLAG 0x02 /* (0000.0010)_2 = (002)_10 */
-/* TODO: BIT 0: EMP = Empty - Define masks for SET, RST, CHK */
+/* BIT 0: EMP = Empty - Define masks for SET, RST, CHK */
 #define BUFFER_EMP_FLAG 0x01 /* (0000.0001)_2 = (001)_10 */
 
 /* STRUCTURES DEFINITION: SUFIXED BY LANGUAGE NAME (ROSALICE) .................................. */
 
-/* TODO: Adjust datatypes */
+/* Adjust datatypes */
 
 /* Offset declaration */
 typedef struct position {
