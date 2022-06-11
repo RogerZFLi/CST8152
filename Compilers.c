@@ -11,25 +11,15 @@
 ************************************************************
 * File name: compilers.c
 * Compiler: MS Visual Studio 2022
-* Author: Paulo Sousa
-* Course: CST 8152 – Compilers, Lab Section: [011, 012, 013]
-* Assignment: A12, A22, A32.
+* Author: Roger Li, Denys Savaskyi - Paulo Sousa
+* Course: CST 8152 â€“ Compilers, Lab Section: 012
+* Assignment: A12
 * Date: May 01 2022
 * Professor: Paulo Sousa
 * Purpose: This file is the main program of Compilers Project
 * Function list: main().
 ************************************************************
 */
-
-/*
- * ............................................................................
- * ADVICE 1:
- * Please check the "TODO" labels to develop your activity.
- *
- * ADVICE 2: This file must be updated according to each assignment 
- * (see the progression: buffer > scanner > parser).
- * ............................................................................
- */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,9 +29,7 @@
 #endif
 
  /*
-  * TODO:
-  * Basically, change all datatypes to your language definitions
-  * (see "Compilers.h")
+  * changed all datatypes to our language definitions
   */
 
 /*
@@ -53,7 +41,6 @@
 * Called functions: mainBuffer(), mainScanner(), mainParser()
 * Parameters: Command line arguments - argc, argv
 * Return value: Status
-* Algorithm: -
 *************************************************************
 */
 
@@ -76,11 +63,11 @@ rsa_int main(int argc, char** argv) {
 		mainBuffer(argc, argv);
 		break;
 	case PGM_SCANNER:
-		/* TODO: Remove this comment when you have to implement the SCANNER */
+		/* Remove this comment when you have to implement the SCANNER */
 		/* mainScanner(argc, argv); */
 		break;
 	case PGM_PARSER:
-		/* TODO: Remove this comment when you have to implement the PARSER */
+		/* Remove this comment when you have to implement the PARSER */
 		/* mainParser(argc, argv); */
 		break;
 	default:
