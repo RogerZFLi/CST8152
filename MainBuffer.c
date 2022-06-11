@@ -11,28 +11,18 @@
 ************************************************************
 * File name: mainBuffer.c
 * Compiler: MS Visual Studio 2022
-* Author: Paulo Sousa
-* Course: CST 8152 – Compilers, Lab Section: [011, 012, 013]
-* Assignment: A12, A22, A32.
+* Author: Roger Li, Denys Savaskyi - Paulo Sousa
+* Course: CST 8152 â€“ Compilers, Lab Section: 012
+* Assignment: A12
 * Date: May 01 2022
 * Professor: Paulo Sousa
 * Purpose: This file is the main code for Buffer (A12)
-* Function list: (...).
+* Function list: rsa_nul bErrorPrint(rsa_chr* fmt, ...);
+	rsa_nul displayBuffer(Buffer* ptr_Buffer);
+	rsa_lng getFileSize(rsa_chr* fname);
+	rsa_int isNumber(const rsa_chr* ns);
+	rsa_nul startBuffer(rsa_chr*, rsa_chr*, rsa_chr, rsa_int, rsa_int);
 *************************************************************/
-
-/*
- *.............................................................................
- * ADVICE 1:
- * Please check the "TODO" labels to develop your activity.
- * 
- * ADVICE 2: Preprocessor directives
- * The #define _CRT_SECURE_NO_WARNINGS should be used in MS Visual Studio projects
- * to suppress the warnings about using "unsafe" functions like fopen()
- * and standard sting library functions defined in string.h.
- * The define directive does not have any effect on other compiler projects 
- * (Gcc, VSCode, Codeblocks, etc.).
- *.............................................................................
- */
 
 #define _CRT_SECURE_NO_WARNINGS 
 
@@ -58,9 +48,7 @@
 #endif
 
 /*
- * TODO .......................................................................
- * Basically, change all datatypes to your language definitions
- * (see "Compilers.h")
+ * changed all datatypes to your language definitions
  */
 
 /*
