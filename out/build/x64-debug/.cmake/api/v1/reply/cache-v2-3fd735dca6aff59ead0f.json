@@ -38,6 +38,42 @@
 			"value" : "C:/Users/16138/source/repos/Assignment12"
 		},
 		{
+			"name" : "Assignment22_BINARY_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "C:/Users/16138/source/repos/Assignment12/out/build/x64-debug"
+		},
+		{
+			"name" : "Assignment22_IS_TOP_LEVEL",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "ON"
+		},
+		{
+			"name" : "Assignment22_SOURCE_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "C:/Users/16138/source/repos/Assignment12"
+		},
+		{
 			"name" : "CMAKE_AR",
 			"properties" : 
 			[
@@ -159,11 +195,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "CXX compiler"
+					"value" : "No help, variable specified on the command line."
 				}
 			],
 			"type" : "STRING",
-			"value" : "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.32.31326/bin/Hostx64/x64/cl.exe"
+			"value" : "cl.exe"
 		},
 		{
 			"name" : "CMAKE_CXX_FLAGS",
@@ -271,11 +307,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "C compiler"
+					"value" : "No help, variable specified on the command line."
 				}
 			],
 			"type" : "STRING",
-			"value" : "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.32.31326/bin/Hostx64/x64/cl.exe"
+			"value" : "cl.exe"
 		},
 		{
 			"name" : "CMAKE_C_FLAGS",
@@ -747,7 +783,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "Assignment12"
+			"value" : "Assignment22"
 		},
 		{
 			"name" : "CMAKE_RANLIB",

@@ -77,7 +77,7 @@ rsa_int main(int argc, char** argv) {
 		break;
 	case PGM_SCANNER:
 		/* TODO: Remove this comment when you have to implement the SCANNER */
-		/* mainScanner(argc, argv); */
+		mainScanner(argc, argv);
 		break;
 	case PGM_PARSER:
 		/* TODO: Remove this comment when you have to implement the PARSER */
